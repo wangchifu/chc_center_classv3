@@ -1,0 +1,94 @@
+{{if $show_table=='school'}}
+<h1 align="center">亂數確認</h1>
+<FORM METHOD=POST ACTION='{{$PHP_SELF}}' Name='Rfm' enctype='multipart/form-data'>
+<table  border='0' align='center' cellpadding='5' cellspacing='1' width="50%" bgcolor='#FFCC33' style='font-size:14pt'>
+<tr>
+<td width="100%" colspan="2" align='center'><H3>電腦雙亂數編班填寫表單</H3></td>
+</tr>
+  <tr bgcolor=white>
+  <td  align='center' >目前進行電腦雙亂數編班學校名稱</td>
+  <td   align='center' >{{$school.sch_name}}</td>
+  </tr>
+ <tr bgcolor=white>
+   <td align='center'>核定編排之班級數</td>
+   <td align='center'><INPUT TYPE='text' NAME='sch_num' Value='{{$school.sch_num}}' style='border:0;color:red;background-color:#CCFFFF;font-size:14pt' size=6></td>
+</tr>
+  <tr>
+    <td  align='center'  width="60%" ><H4>亂數編碼決定學生編號填寫表單</H4></td>
+    <td  align='center'  width="40%" ><H4>亂數編班填寫表單</H4></td>
+  </tr>
+  <tr  bgcolor=white>
+    <td colspan=2 align='center'>亂數種子</td>
+  </tr>
+  <tr  bgcolor=white>
+    <td colspan=2 align='center'><INPUT TYPE='text' NAME='random01' Value='{{$random01}}' style='border:0;color:red;background-color:#CCFFFF;font-size:14pt' size=6></td>
+  </tr>
+  <tr bgcolor=white>
+  <td colspan=2 align='center' >
+   <INPUT TYPE='hidden' Name='act' Value=''>
+   <INPUT TYPE='hidden' Name='sch_file' Value='{{$school.sch_id}}'>
+   <INPUT TYPE='button' value='取消返回' onclick="location.href='index.php';" class=bur2>
+   <INPUT TYPE='button' value='重新取得亂數種子' onclick="location.href='{{$PHP_SELF}}?sch_file={{$school.sch_id}}';" class=bur2>
+   <INPUT TYPE='button' value='開始編班' onclick="if( window.confirm('開始編班了喔？確定嗎？')){this.form.act.value='start';this.form.submit ();}">
+ </FORM>
+   </td>
+   </tr>
+</table>
+
+</FORM>
+{{/if}}
+{{if $show_table=='stu'}}
+<h1 align="center">編班完成</h1>
+<!-- 編班後資料列示 -->
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1'>
+<TR bgcolor='#FFCC33'>
+<TD valign="top">
+<CENTER><H3>{{$school.sch_name}}電腦雙亂數編班結果公布畫面</H3></CENTER>
+
+</TD></TR>
+
+{{foreach from=$the_class key=ckey item=the_class}}
+
+<TR bgcolor='#C0C0C0'>
+<TD valign="top"><B>&nbsp;A{{$ckey}}班&nbsp;&nbsp;{{$the_class.num}}
+{{if $the_class.sp!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp}})</FONT>{{/if}}人&nbsp;
+男:{{$the_class.boys}}
+{{if $the_class.sp_girl!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp_girl}})</FONT>{{/if}}&nbsp;
+女:{{$the_class.girls}}
+{{if $the_class.sp_boy!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp_boy}})</FONT>{{/if}}
+&nbsp;{{if $the_class.teach!=''}}導師：{{$the_class.teach}} {{/if}}</B>
+</TD></TR>
+
+<TR bgcolor='white'><TD valign="top">
+<!-- 學生列示 -->
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1' style='font-size:11pt'>
+<TR bgcolor='white'>
+{{foreach from=$the_class.stu key=skey  item=stu}}
+{{if $stu.sn!=''}}
+<TD nowrap><FONT COLOR='#808080'>{{$stu.sn}}</FONT>
+{{$SEX[$stu.sex]}}{{$stu.k2|string_format:"%02d"}}號
+{{if $stu.sex==1}}
+<font color="blue">
+{{else}}
+<font color="red">
+{{/if}}
+{{$stu.stud_name}}</font>
+</TD>
+{{else}}
+<TD nowrap>&nbsp;</TD>
+{{/if}}
+{{if $stu.next_line=='yes'}}</tr><tr>{{/if}}
+
+{{/foreach}}
+</TR>
+</TABLE>
+
+</TD>
+</TR>
+{{/foreach}}
+
+
+</td>
+</tr>
+</table>
+{{/if}}

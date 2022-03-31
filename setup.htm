@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<script type="text/javascript" src="./include/jquery.min.js"></script>
+<script type="text/javascript" src="./include/jquery-ui.js"></script>
+<script type="text/javascript" src="./include/jquery.ui.touch-punch.min.js"></script>
+
+<!-- CSS -->
+<style type="text/css">
+    .list1,.list2 {
+        background-color: lightblue;
+        border: 1px solid gray;
+    }
+
+    .items {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 280px;
+    }
+
+    .items li {
+        margin: 2px;
+        padding: 2px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    .weekday {
+        float: left;
+    }
+
+</style>
+
+
+<!-- Javascript -->
+<script>
+    $(function () {
+        $("#timetable .items").sortable({
+            connectWith: "ul"
+        });
+
+        $("ul[id^='available']").draggable({
+            helper: "clone",
+            connectToSortable: ".items"
+        });
+    });
+</script>
+
+<hr size=1>
+<div align='center'>
+    <h1>系統設定</h1>
+    <p>[ <a href="#" onclick="if (window.confirm('確定還原設定？')){ location.href='{{$PHP_SELF}}?act=del&file=config.txt';}">還原預設</a> ]</p>
+    <form name='score' action="{{$PHP_SELF}}" method="post" name=xx>
+        <table cellspacing='1' cellpadding='4'  bgcolor=#9EBCDD>
+            <tr bgcolor='#F7F7F7'>
+                <th>
+                    測試用？
+                </th>
+                <th>
+                    編班後是否將班級打亂(建議打勾)
+                </th>
+            </tr>
+            <tr bgcolor="white">
+                <td>
+                    <input type="checkbox" name="super_mgr" value="Yes" id="super_mgr" {{ $check1 }}> <label for="super_mgr">測試模式</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="random_class" value="Yes" id="random_class" {{ $check2 }}> <label for="random_class">是！</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" bgcolor="white">
+                    <input type="submit" name="change_mod" value="儲存設定" onclick="return confirm('確定改設定？');">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

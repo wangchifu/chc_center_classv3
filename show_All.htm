@@ -1,0 +1,99 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; Charset=utf8">
+<head>
+<title>電腦亂數編班結果公布</title>
+<CENTER><H2>彰化縣各校分區編班中心--電腦亂數編班結果公布</H2></CENTER>
+
+{{if $show_table!='stu'}}
+
+<table cellpadding="5" cellspacing="1"   bgcolor="#ADD8E6" width="90%" style='font-size:12pt' align=center>
+<tr bgcolor='#ADD8E6' align=center><td colspan=4 ><H2>本區各校編班狀況列示</H2></td></tr>
+<tr bgcolor='white'  align=center>
+{{foreach from=$sch key=kk item=arr}}
+{{if $arr.out=='OK' && $arr.teacher2!=''}}
+<td align=left nowrap title='按下後檢視{{$arr.sch_name}}編班結果' width=25%>{{$arr.sch_id}}
+<a href="{{$PHP_SELF}}?act=view&sch={{$arr.sch_id}}">{{$arr.sch_name}}</A>
+(<FONT  COLOR='#339900'>全部完成</FONT>)
+</td>
+{{elseif $arr.out=='OK' && $arr.teacher2==''}}
+<td align=left nowrap title='按下後檢視{{$arr.sch_name}}編班結果' width=25%>{{$arr.sch_id}}
+<a href="{{$PHP_SELF}}?act=view&sch={{$arr.sch_id}}">{{$arr.sch_name}}</a>
+(<FONT  COLOR='#0000FF'>編班完成</FONT>)
+</td>
+{{elseif  $arr.out=='' && $arr.in!='' }}
+<td align=left nowrap width=25%>{{$arr.sch_id}}
+{{$arr.sch_name}}
+(<FONT  COLOR='#FF0000'>尚未編班</FONT>)
+</td>
+{{elseif  $arr.out=='' && $arr.in=='' }}
+<td align=left nowrap width=25% bgcolor='white'> &nbsp;</td>
+{{/if}}
+{{if $arr.next_line=='yes'}}</tr><tr bgcolor='white'  align=center>{{/if}}
+{{/foreach}}
+</tr>
+</table>
+{{/if}}
+
+
+{{if $show_table=='stu'}}
+<!-- 編班後資料列示 -->
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1'>
+<TR bgcolor='#FFCC33'>
+<TD valign="top">
+<CENTER><SPAN style="font-weight: 700;font-size: 16pt">{{$school.sch_name}}電腦亂數編班結果公布畫面</SPAN><BR>
+<SPAN  style="color:red">※※※<FONT  COLOR="blue">實際班級順序依各校自行決定，但各班所屬學生不變</FONT>※※※</SPAN>
+</CENTER>
+
+<DIV ALIGN="right"><A HREF='{{$PHP_SELF}}'>回主畫面</A></DIV>
+</TD></TR>
+
+{{foreach from=$the_class key=ckey item=the_class}}
+
+<TR bgcolor='#C0C0C0'>
+<TD valign="top"><B>&nbsp;班序 A{{$ckey}}&nbsp;&nbsp;{{$the_class.num}}
+{{if $the_class.sp!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp}})</FONT>{{/if}}
+人&nbsp;
+男:{{$the_class.boys}}
+{{if $the_class.sp_girl!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp_girl}})</FONT>{{/if}}&nbsp;
+女:{{$the_class.girls}}
+{{if $the_class.sp_boy!=0}}<FONT SIZE='2' COLOR='#660000'>(+{{$the_class.sp_boy}})</FONT>{{/if}}&nbsp;
+{{if $the_class.teach!=''}}導師：{{$the_class.teach}} {{/if}}</B>
+</TD></TR>
+
+<TR bgcolor='white'><TD valign="top">
+<!-- 學生列示 -->
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1' style='font-size:11pt'>
+<TR bgcolor='white'>
+{{foreach from=$the_class.stu key=skey  item=stu}}
+{{if $stu.sn!=''}}
+<TD nowrap><FONT COLOR='#808080'>{{$stu.sn}}</FONT>
+{{if $stu.stud_kind==0}}
+{{$SEX[$stu.sex]}}{{$stu.k2|string_format:"%02d"}}號{{$stu.stud_name}}{{/if}}
+{{if $stu.stud_kind==1}}
+{{$SEX[$stu.sex]}}{{$stu.k2|string_format:"%02d"}}號<FONT COLOR='red'>{{$stu.stud_name}}</FONT>{{/if}}
+{{if $stu.stud_kind==2}}
+{{$SEX[$stu.sex]}}{{$stu.k2|string_format:"%02d"}}號<FONT COLOR='blue'>{{$stu.stud_name}}</FONT>{{/if}}
+{{if $stu.stud_kind==3}}
+{{$SEX[$stu.sex]}}{{$stu.k2|string_format:"%02d"}}號<FONT COLOR='#009900'>{{$stu.stud_name}}</FONT>{{/if}}
+</TD>
+{{else}}
+<TD nowrap>&nbsp;</TD>
+{{/if}}
+
+{{if $stu.next_line=='yes' && $stu.sn!=''}}</tr><tr>{{/if}}
+
+{{/foreach}}
+</TR>
+</TABLE>
+
+</TD>
+</TR>
+{{/foreach}}
+
+
+</td>
+</tr>
+</table>
+{{/if}}
+
+<BR><BR>

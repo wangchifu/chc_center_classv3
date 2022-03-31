@@ -1,0 +1,99 @@
+<h1 align="center">{{$school.sch_name}} 參與編班資料</h1>
+{{if $show_data=='yes'}}
+
+<!-- 編班前資料列示:學生列示 -->
+<TABLE width='100%'  border='0' align='center' cellpadding='3' cellspacing='1' style='font-size:12pt' bgcolor="#EBD6EB">
+<TR bgcolor='#D0E8D0'>
+<TD nowrap colspan=6 ><H3>■{{$school.sch_name}}匯送之檔案內容資訊</H3></TD></TR>
+<TR align=right>
+<TD width=17%>校　　名:</TD><TD align=left bgcolor='#FFFFFF' width=16%>{{$school.sch_name}}</TD>
+<TD width=17%>填報班級數:</TD><TD align=left  bgcolor='#FFFFFF' width=16%>{{$school.sch_num}}</TD>
+<TD width=17%>填報人數:</TD><TD align=left  bgcolor='#FFFFFF' width=17%>{{$school.stu_tol}}</TD>
+</TR>
+
+<TR align=right>
+<TD>計算學生數:</TD><TD align=left bgcolor='#FFFFFF'>{{$sp_stu.tol}}人</TD>
+<TD>男生數:</TD><TD align=left  bgcolor='#FFFFFF'>{{$sp_stu.boy}}人</TD>
+<TD>女生數:</TD><TD align=left bgcolor='#FFFFFF' >{{$sp_stu.girl}}人</TD>
+</TR>
+<TR align=right>
+<TD><FONT  COLOR='red'>特殊生:</FONT></TD><TD align=left bgcolor='#FFFFFF'>{{$sp_stu.sp_tol}}人</TD>
+<TD><FONT  COLOR='blue'>雙胞胎同班數:</FONT></TD><TD align=left  bgcolor='#FFFFFF'>{{$sp_stu.bo_tol+0}}人</TD>
+<TD><FONT COLOR='#009900'>雙胞胎不同班數:</FONT></TD><TD align=left bgcolor='#FFFFFF' >{{$sp_stu.na_bo_tol+0}}人</TD>
+</TR>
+<TR align=right>
+      <TD><FONT  COLOR='#FF8000'>三胞胎都同班:</FONT></TD><TD align=left bgcolor='#FFFFFF'>{{$sp_stu.3bo3_tol+0}}人</TD>
+      <TD><FONT  COLOR='#3D7878'>三胞胎都不同班:</FONT></TD><TD align=left bgcolor='#FFFFFF'>{{$sp_stu.3bo0_tol+0}}人</TD>
+      <TD><FONT  COLOR='#5151A2'>三胞胎兩個同班:</FONT></TD><TD align=left bgcolor='#FFFFFF'>{{$sp_stu.3bo2_tol+0}}人</TD>
+      </TR>
+<TR align=right>
+<TD>教師名冊:<BR>&nbsp;</TD><TD align=left colspan=5 bgcolor='#FFFFFF'>
+{{if $school.teacher!='' }}
+{{foreach from=$school.teacher  item=tea}}
+<U>{{$tea}}</U>&nbsp;&nbsp;
+{{/foreach}}
+
+{{else}}<FONT SIZE='4' COLOR='#FF0000'>未送出</FONT>{{/if}}
+
+</TD>
+</TR></TABLE>
+
+<TABLE width='100%'  border='0' align='center' cellpadding='3' cellspacing='1' style='font-size:13px' bgcolor="#EBD6EB">
+<!-- 特殊生列示 -->
+{{if $sp_stu1!=''}}
+<TR bgcolor='#FFFFFF'>
+<TD nowrap colspan=5 width=100%><B>■檔案內特殊生列表</B></TD></TR>
+<TR bgcolor='#d0d0d0'>
+{{foreach from=$sp_stu1   item=sp_stu}}
+{{if $sp_stu.sn!=''}}
+<TD nowrap>{{$sp_stu.sn}}{{$SEX[$sp_stu.sex]}}<FONT COLOR='red'>{{$sp_stu.stud_name}}</FONT></TD>
+{{else}}
+<TD nowrap>&nbsp;</TD>
+{{/if}}
+{{if $sp_stu.next_line=='yes' && $sp_stu.sn!=''}}</tr><tr bgcolor='{{cycle values="#eeeeee,#d0d0d0"}}'>{{/if}}
+{{/foreach}}
+</TR>
+{{/if}}
+
+
+
+
+</TABLE>
+
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1' style='font-size:11pt' bgcolor="#EBD6EB">
+
+<TR bgcolor='#FFFFFF'>
+<TD nowrap colspan=5 ><B>■檔案內全部新生一覽</B>&nbsp;&nbsp;<FONT SIZE='2' COLOR='red'>◎請檢查是否流水號重複，如有缺號仍屬正常</FONT></TD></TR>
+<TR bgcolor='#d0d0d0'>
+{{foreach from=$stu key=skey  item=stu}}
+{{if $stu.sn!=''}}
+<TD nowrap><FONT COLOR='#808080'>{{$stu.sn}}</FONT>
+{{$SEX[$stu.sex]}}
+{{if $stu.stud_kind=='1'}}
+       <FONT COLOR='red'>{{$stu.stud_name}}</FONT>
+{{else}} 
+      {{if $stu.stud_kind=='2'}}
+       <FONT COLOR='blue'>{{$stu.stud_name}}</FONT>
+     {{else}}
+           {{if $stu.stud_kind=='3'}}
+              <FONT COLOR='green'>{{$stu.stud_name}}</FONT>
+           {{else}}
+               {{$stu.stud_name}}
+           {{/if}}    
+     {{/if}}
+{{/if}}     
+</TD>
+
+{{else}}
+<TD nowrap>&nbsp;</TD>
+{{/if}}
+
+{{if $stu.next_line=='yes' && $stu.sn!=''}}</tr><tr bgcolor='{{cycle values="#eeeeee,#d0d0d0"}}'>{{/if}}
+
+{{/foreach}}
+</TR>
+</TABLE>
+
+{{/if}}
+
+<BR><BR>

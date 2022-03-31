@@ -1,0 +1,139 @@
+{{if $show_table=='school'}}
+<style type="text/css">
+.in1{border:0;color:red;background-color:#CCFFFF;font-size:14pt;text-align:right}
+.in2{border:0;color:blue;background-color:#CCFFFF;font-size:14pt;text-align:left}
+
+</style>
+<BR><BR>
+
+<FORM METHOD=POST ACTION='{{$PHP_SELF}}' Name='Rfm' enctype='multipart/form-data'>
+<table  border='0' align='center' cellpadding='5' cellspacing='1' width="80%" bgcolor='#FFCC33' style='font-size:14pt'>
+<tr>
+<td width="100%"  align='center'><H3>各校導師編排填寫表單</H3></td>
+</tr>
+<tr bgcolor=white>
+<td  nowrap>目前進行導師編排學校名稱：<FONT  COLOR='red'>{{$school.sch_name}}</FONT></td>
+</tr>
+<tr bgcolor=white>
+<td nowrap ><BR>
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1'>
+<TR><TD width=50% valign=top nowrap >
+已送出導師名冊：
+<DIV  style='margin-left:20pt;line-height:30px'>
+{{if $school.teacher!=''}}
+<!-- foreach from=$school.teacher key=tkey item=teach -->
+{{foreach from=$class_loop  key=tk1  item=t1}}
+導師：<INPUT TYPE='text' NAME='tea[{{$tk1}}]' Value='{{$tk1+1}}' class='in1' size=3>
+<INPUT TYPE='text' NAME='tea_name[{{$tk1}}]' Value='{{$school.teacher[$tk1]}}' class='in2' size=8 >
+
+
+<BR>
+{{/foreach}}
+{{else}}
+{{foreach from=$class_loop  key=k  item=t2}}
+{{assign var="i" value=$k+1}}
+
+導師 {{$i}}：
+<INPUT TYPE='text' NAME='tea_name[{{$t2}}]' Value='' class='in2' size=8 >
+<BR>
+{{/foreach}}
+<FONT SIZE='2' COLOR='blue'>若依現場抽籤結果寫入，則先後順序則為班級順序。</FONT>
+
+{{/if}}
+</DIV></TD>
+<TD width=50% valign=top>
+已編排後導師名冊：
+<DIV  style='margin-left:20pt;line-height:30px'>
+{{if $school.teacher2!=''}}
+{{foreach from=$class_loop  key=tkey  item=t3}}
+{{assign var="i" value=$tkey+1}}
+
+{{$i}}班導師：{{$school.teacher2[tkey]}}
+<BR>
+{{/foreach}}
+{{else}}
+<FONT  COLOR='red'>尚未編排或<BR>自行回校公開抽籤</FONT>
+{{/if}}
+</DIV></TD></TR>
+</TABLE>
+
+</td>
+</tr>
+
+
+<tr bgcolor=white>
+<td nowrap>亂數種子：<INPUT TYPE='text' NAME='random' Value='{{$random}}' style='border:0;color:red;background-color:#CCFFFF;font-size:14pt' size=6></td>
+</tr>
+<tr bgcolor=white>
+<td nowrap>處理方式：
+<INPUT TYPE='radio' NAME='work_kind' Value='1'>依現場抽籤結果寫入
+<INPUT TYPE='radio' NAME='work_kind' Value='2' checked>由電腦進行亂數編排
+
+</td>
+</tr>
+
+<tr bgcolor=white>
+<td  align='center' >
+<INPUT TYPE='hidden' Name='act' Value=''>
+<INPUT TYPE='hidden' Name='sch_file' Value='{{$school.sch_id}}'>
+<INPUT TYPE='button' value='取消返回' onclick="location.href='index.php';" class=bur2>
+<INPUT TYPE='button' value='重新取得亂數種子' onclick="location.href='{{$PHP_SELF}}?sch_file={{$school.sch_id}}';" class=bur2>
+<INPUT TYPE='button' value='寫入或亂數編排導師' onclick="if( window.confirm('開始依您選的方式編排導師了喔？確定？')){this.form.act.value='start';this.form.submit ();}">
+</FORM>
+</td>
+</tr>
+
+</table>
+</FORM>
+{{/if}}
+{{if $show_table=='school2'}}
+<!-- 編班後資料列示 -->
+<style type="text/css">
+.in1{border:0;color:red;background-color:#CCFFFF;font-size:14pt;text-align:right}
+.in2{border:0;color:blue;background-color:#CCFFFF;font-size:14pt;text-align:left}
+
+</style>
+<BR><BR>
+<table  border='0' align='center' cellpadding='5' cellspacing='1' width="80%" bgcolor='#FFCC33' style='font-size:14pt'>
+<tr>
+<td width="100%"  align='center'><H3>{{$school.sch_name}}新生導師編排結果顯示</H3></td>
+</tr>
+<tr bgcolor=white>
+<td nowrap ><BR>
+<TABLE width='100%'  border='0' align='center' cellpadding='1' cellspacing='1'>
+<TR><TD width=50% valign=top nowrap >
+送出導師名冊：
+<DIV  style='margin-left:20pt;line-height:30px'>
+{{if $school.teacher!=''}}
+{{foreach from=$class_loop  key=tk1  item=t1}}
+{{assign var="i" value=$tk1+1}}
+
+導師{{$i}}：{{$school.teacher[$tk1]}}
+<BR>
+{{/foreach}}
+{{else}}
+<FONT SIZE='2' COLOR='blue'>名冊為現場填報</FONT>
+{{/if}}
+</DIV></TD>
+<TD width=50% valign=top>
+編排後導師名冊：
+<DIV  style='margin-left:20pt;line-height:30px'>
+{{if $school.teacher2!=''}}
+{{foreach from=$class_loop  key=tk2  item=t2}}
+{{assign var="i" value=$tk2+1}}
+{{$i}}班導師：{{$school.teacher2[$tk2]}}
+<BR>
+{{/foreach}}
+{{else}}
+<FONT  COLOR='red'>尚排編排</FONT>
+{{/if}}
+</DIV></TD></TR>
+</TABLE>
+
+</td>
+</tr>
+
+</table>
+{{/if}}
+
+

@@ -1,0 +1,52 @@
+{{if $show_school=='yes'}}
+<HTML>
+<meta http-equiv="Content-Type" content="text/html; Charset=utf8">
+<HEAD>
+<TITLE>{{$sch.sch_name}}新生編班名冊</TITLE>
+</HEAD>
+<body onload="if(window.confirm('開始列印？')){self.print();};return true;">
+<table cellPadding='0' border=0 cellSpacing='0' width='80%' align=center  style='font-size:14pt'>
+<TR>
+<TD colspan=3>校名：<B>{{$sch.sch_name}}</B></TD>
+<TD colspan=2>班級數：<B>{{$sch.sch_num}}</B>班</TD>
+<TD colspan=2>總人數：<B>{{$sch.stu_tol}}</B></TD>
+</TR>
+</TABLE>{{/if}}
+
+{{if $new_page=='yes'}}<P STYLE='page-break-before: always;'>{{/if}}
+
+<table cellPadding='0' border=1 cellSpacing='0' width='80%' align=center  style='border-collapse:collapse;font-size:14pt;'>
+<TR align=center>
+<TD colspan=7><H3>{{$sch.sch_name}}<B>一年A{{$now_class}}班</B> 新生編班名冊</H3>
+<DIV ALIGN="right" >
+{{if $teacher!=''}}導師：<U>　{{$teacher}}　</U>.
+{{else}}導師：<U>　　　　　　　　</U>.
+{{/if}}</DIV>
+</TD>
+</TR>
+<TR align=center>
+<TD>流水號</TD><TD>班級</TD><TD>座號</TD><TD>性別</TD><TD>姓名</TD><TD>原就讀學校</TD><TD>備註</TD>
+</TR>
+{{foreach from=$stu item=stu}}
+<TR align=center>
+<TD>{{$stu.sn}}</TD>
+<TD>A{{$stu.k1}}</TD>
+<TD>{{$stu.k2}}</TD>
+<TD>{{$SEX[$stu.sex]}}</TD>
+<TD>{{$stu.stud_name}}</TD>
+<TD>{{$stu.old_sch}}</TD>
+<TD>{{$stu.memo}}</TD>
+</TR>
+{{/foreach}}
+</TABLE>
+
+<TABLE width=80% align=center >
+<TR>
+<TD colspan=3>第<B>{{$now_class}}</B>頁 &nbsp;製表日期:{{$prt_date}}</TD>
+<TR>
+<TD width=33%>承辦人：</TD>
+<TD width=33%>承辦學校：</TD>
+<TD width=34%>教育處：</TD>
+</TR>
+</TABLE>
+

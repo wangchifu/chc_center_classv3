@@ -1,0 +1,73 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; Charset=utf8">
+<head>
+<script language="JavaScript">
+	function num_chk() {
+	var i =0;
+	var Lng = new Array();
+	var Num=0;
+	while (i < document.N1.elements.length) {
+		var obj=document.N1.elements[i];
+		var objx=document.N1.elements[i].name;//取得名稱
+	// objx.substr(0,4)取得部分字串
+		if (obj.type=='select-one' && objx.substr(0,5)=='class') {
+//			alert(obj.name+obj.value );
+			Lng[obj.value]=obj.value;
+			Num++;
+		}
+//		if (obj.type=='checkbox' && objx.substr(0,4)=='astu') {
+
+//		if (obj.checked==1 ) {obj.checked=0;}
+//		else { obj.checked=1;}
+//		}
+		i++;}
+		var Num2=0;
+		for (var i=0;i<Lng.length;i++){
+			if (typeof(Lng[i]) == "undefined") continue;
+			Num2++;}
+		if (Num!=Num2 ) alert("ＸＸＸＸ\n\n有重複選擇的班級！");
+		else{
+		if( window.confirm('編排確定了嗎？')) {document.N1.act.value='start';document.N1.submit();}
+		}
+		
+//		if( window.confirm('編排確定了嗎？')) {document.N1.act.value='start';document.N1.submit();}
+
+}
+</script>
+
+<title>編班中心</title>
+{{if $show_table=='school'}}
+
+<BR><BR>
+
+<FORM METHOD=POST ACTION='{{$PHP_SELF}}' Name='N1'>
+<table  border='0' align='center' cellpadding='5' cellspacing='1' width="50%" bgcolor='#FFCC33' style='font-size:14pt'>
+<tr>
+<td width="100%" colspan="2" align='center'><H3>編排  {{$school.sch_name}} 班級順序</H3></td>
+</tr>
+{{section name=A loop=$school.sch_num  }}
+{{assign var="SS" value=$smarty.section.A.index+1}}
+{{assign var="K" value=$smarty.section.A.index}}
+<tr bgcolor=white align='center'> 
+<td width="50%">班級 {{$SS}} 導師：{{$school.teacher2.$K}} </td>
+<td width="50%"><SELECT NAME="class_id[{{$SS}}]"  style='font-size:12pt'>{{html_options options=$abc selected=$SS}}</SELECT>
+<INPUT TYPE="hidden" name="Tea[{{$SS}}]" value="{{$school.teacher2.$K}}">
+</td></tr>
+{{/section}}
+
+<tr bgcolor=white>
+<td colspan=2 align='center'>
+<INPUT TYPE='hidden' Name='act' Value=''>
+<INPUT TYPE='hidden' Name='sch_file' Value='{{$school.sch_id}}'>
+<INPUT TYPE="reset" value='重新設定'>
+<INPUT TYPE='button' value='取消返回' onclick="location.href='index.php';" class=bur2>
+<INPUT TYPE='button' value='排定送出' onclick="num_chk()">
+</FORM>
+</td>
+</tr>
+
+</table>
+
+
+
+{{/if}}

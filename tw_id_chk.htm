@@ -1,0 +1,47 @@
+<h1 align="center">查驗證號</h1>
+<table  border='0' align='center' cellpadding='2' cellspacing='1' width="50%" bgcolor='#FFCC33' style='font-size:12pt'>
+<tr>
+<td width="100%" colspan="6" align='center'><H3>學生字號重複檢查</H3></td>
+</tr>
+<tr bgcolor=white>
+<td nowrap>身分証字號</td>
+<td nowrap>流水號</td>
+<td nowrap>學生姓名</td>
+<td nowrap>所在學校</td>
+</tr>
+
+{{foreach from=$err key=id item=arr}}
+{{foreach from=$arr  item=stu}}
+
+<tr bgcolor=white>
+<td nowrap>{{$id}}</td>
+<td nowrap>{{$stu.sn}}</td>
+<td nowrap>{{$stu.stud_name}}</td>
+<td nowrap>{{$stu.in_school}}</td>
+</tr>
+{{/foreach}}
+{{/foreach}}
+<tr>
+<td width="100%" colspan="6" align='center'><H3>身分証字號未填或錯誤檢查</H3></td>
+</tr>
+<tr bgcolor=white>
+<td nowrap>身分証字號</td>
+<td nowrap>流水號</td>
+<td nowrap>學生姓名</td>
+<td nowrap>所在學校</td>
+</tr>
+{{foreach from=$err2 item=stu2}}
+{{foreach from=$stu2 item=arr2}}
+
+<tr bgcolor=white>
+<td nowrap>{{$arr2.person_id}}</td>
+<td nowrap>{{$arr2.sn}}</td>
+<td nowrap>{{$arr2.stud_name}}</td>
+<td nowrap>{{$arr2.in_school}}</td>
+</tr>
+
+{{/foreach}}
+{{/foreach}}
+
+
+</table>

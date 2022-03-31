@@ -1,0 +1,129 @@
+<hr size=1>
+<h1 align="center">學校編班作業</h1>
+{{if $super_mgr=='Yes'}}
+<b>上傳欲編班學校檔案:(檔案格式：年度_學校代碼_日期.xlsx)</b>
+<br><font color="red">上傳全部學校完畢後，請務必按「查驗證號」，以避免學生同時報到多校的問題。</font><br>
+<form name='score' enctype="multipart/form-data" action="{{$PHP_SELF}}" method="post" name=xx>
+	<input type="hidden" name="MAX_FILE_SIZE">
+	<input type="hidden" name="act"  >
+	<input type=file size=40 name='upfile' >
+	<input type=submit value='上傳' onClick="document.score.act.value='upload'">
+</form>
+{{/if}}
+<div align='center'>
+<table cellpadding="5" cellspacing="1"   bgcolor="#ADD8E6" width="100%" style='font-size:10pt'>
+<tr bgcolor='#ADD8E6' align=center>
+{{if $super_mgr=='Yes'}}
+<td width=5% nowrap><b>編號</b></td>
+<td width=15% nowrap><b>上傳學校</b></td>
+<td width=10% nowrap><b>編班狀態</b></td>
+<td width=10% nowrap><b>動作1</b></td>
+<td width=15% nowrap><b>動作2</b></td>
+<td width=15% nowrap><b>動作3</b></td>
+<td width=10% nowrap><b>動作4</b></td>
+<td nowrap><b>下載&列印</b></td>
+<td  nowrap><b>刪除</b>【<A HREF="#"  onclick="if (window.confirm('確定刪除全部檔案？')){ location.href='{{$PHP_SELF}}?act=del_all';}">全部刪除</A>】</td>
+{{else}}
+<td width=5% nowrap><b>編號</b></td>
+<td width=25% nowrap><b>上傳學校</b></td>
+<td width=20% nowrap><b>編班狀態</b></td>
+<td width=20% nowrap><b>一鍵完成亂數編班</b></td>
+<td nowrap><b>下載&列印亂數編班檔案</b></td>
+
+{{/if}}
+</tr>
+    {{foreach from=$sch key=kk item=arr}}
+<tr bgcolor='white'  align=center>
+<td align=center nowrap>{{$arr.sch_sn}}</td>	
+<td align=left nowrap>{{$arr.sch_id}}<FONT  COLOR='#0000FF'>
+{{$arr.sch_name}} 
+{{if $arr.in!=""}}<B style='color:#808080' onclick="location.href='view.php?sch={{$arr.sch_id}}';">[檢視]</B>
+</FONT></td>
+  <td nowrap>
+    {{if $arr.out!='OK'}}<font color="#FF0000">尚未編班</font>{{else}}已經編班{{/if}}
+  </td>
+  <td >
+    {{if $arr.out!='OK'}}<A HREF='school.php?sch_file={{$arr.sch_id}}'>進行編班動作</A>{{else}}<A HREF='school.php?sch_file={{$arr.sch_id}}&act=view'>檢視編班結果</A>{{/if}}
+  </td>
+  <td nowrap>
+{{if $arr.out=='OK' && $arr.teacher2==''}}<a href="teacher.php?sch_file={{$arr.sch_id}}" >編排導師</a>
+{{elseif  $arr.out=='OK' && $arr.teacher2!=''}}<a href="teacher.php?sch_file={{$arr.sch_id}}&act=view" >檢視導師結果</a>
+{{else}}----{{/if}}
+</td>
+
+<td nowrap>
+{{if $arr.out=='OK' && $arr.teacher2!=''}}<a href="class_ord.php?sch_file={{$arr.sch_id}}" >編排班序</a>
+{{else}}----{{/if}}
+</td>
+<td>
+    {{if $arr.out!='OK'}}----{{else}}<a href="special.php?sch_file={{$arr.sch_id}}" >特殊處理</a>{{/if}}
+</td>
+  
+{{if $arr.out!='OK'}}
+   <td nowrap>
+   </td>
+{{else}}
+
+    <td nowrap>
+         [<a href="{{$PHP_SELF}}?act=down&fn={{$arr.sch_id}}" target="_blank">下載檔案</a>]
+         [<a href="{{$PHP_SELF}}?act=prt&fn={{$arr.sch_id}}" target="_blank">列印名冊</a>]
+    </td>
+{{/if}}
+
+{{if $super_mgr=='Yes'}}
+<td style='font-size:10pt' align=center nowrap>
+[<A HREF="#" onclick="if (window.confirm('確定刪除上傳檔？')){ location.href='{{$PHP_SELF}}?act=del&fn={{$arr.in}}';}">刪除上傳檔</A>]
+{{if $arr.out=='OK'}}
+[<A HREF="#"  onclick="if (window.confirm('確定刪除編班檔？')){ location.href='{{$PHP_SELF}}?act=del&fn={{$arr.out_name}}';}">刪除編班檔</A>]
+{{if $arr.teacher2!=''}}
+[<A HREF="#"  onclick="if (window.confirm('確定刪除已編的導師？')){ location.href='{{$PHP_SELF}}?act=del_teacher&fn={{$arr.out_name}}';}">刪除已編導師</A>]
+{{/if}}
+{{/if}}
+</td>
+  {{/if}}
+</tr>
+{{else}}
+
+
+<B style='color:#d0d0d0' ></B>
+</FONT></td>
+  <td nowrap>
+  </td>
+  <td >
+  </td>  
+  <td >
+  </td>  
+  <td >
+  </td>
+  <td>
+  </td>
+{{if $super_mgr=='Yes'}}
+   <td nowrap>
+   </td>
+{{else}}
+    <td nowrap>
+    </td>
+{{/if}}
+{{if $super_mgr=='Yes'}}
+<td style='font-size:10pt' align=center nowrap>
+    {{if $arr.out=='OK'}}
+    {{/if}}
+</td>
+  {{/if}}
+</tr>
+
+
+{{/if}}
+{{/foreach}}
+<tr>
+    <td colspan="5">
+        <FONT SIZE='2''>
+            1.按校名後的檢視，可查驗資料檔案是否有填報錯誤的情況。<BR>
+            2.代碼重複或填報資料錯誤，會導致程式運作錯誤，請操作人員事前詳加檢查。</FONT><br>
+            3.<font color="red">上述學校有缺少者，請洽和東國小資訊組為您新增。</font>
+            
+    </td>
+</tr>
+</table>
+</div>
+<BR><BR>

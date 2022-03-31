@@ -1,0 +1,37 @@
+<style type="text/css">
+    .in1{border:0;color:red;background-color:#CCFFFF;font-size:14pt;text-align:right}
+    .in2{border:0;color:blue;background-color:#CCFFFF;font-size:14pt;text-align:left}
+
+</style>
+<BR><BR>
+
+<FORM METHOD=POST ACTION='{{$PHP_SELF}}'>
+<table  border='0' align='center' cellpadding='5' cellspacing='1' width="80%" bgcolor='#FFCC33' style='font-size:14pt'>
+<tr>
+<td width="100%"  align='center'><H3>特殊處理：學生異動</H3></td>
+</tr>
+<tr bgcolor=white>
+<td  nowrap>目前進行學生異動學校名稱：<FONT  COLOR='red'>{{$school.sch_name}}</FONT></td>
+</tr>
+<tr bgcolor=white>
+<td>
+   異動學生的流水號：<INPUT TYPE='text' NAME='special_stu_sn' class='in1' size=6 maxlength="5" required> (首字大寫A，共五碼)
+</td>
+</tr>
+<tr bgcolor=white>
+    <td>
+        異動到班級：<SELECT NAME="class_id"  style='font-size:12pt'>{{html_options options=$abc selected=$SS}}</SELECT>
+        座號：<INPUT TYPE='text' NAME='new_num' class='in1' size=2 maxlength="2" required>
+    </td>
+</tr>
+<tr bgcolor=white align="center">
+    <td>
+        <INPUT TYPE="reset" value='重新設定'>
+        <INPUT TYPE='button' value='取消返回' onclick="location.href='indexA.php';" class=bur2>
+        <input type="hidden" name="action" value="go">
+        <input type="hidden" name="sch_file" value="{{$school.sch_id}}">
+        <button TYPE='submit' onclick="return confirm('確定送出？')">排定送出</button>
+    </td>
+</tr>
+</table>
+</FORM>
